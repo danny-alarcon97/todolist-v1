@@ -5,22 +5,22 @@ const ejs = require("ejs");
 const app = express();
 const port = 3000;
 
-var items = ["Buy Food", "Cook Food", "Eat Food"];
+let items = ["Buy Food", "Cook Food", "Eat Food"];
 
 app.set("view engine", "ejs");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", function (req, res) {
-  var today = new Date();
+  let today = new Date();
 
-  var options = {
+  let options = {
     weekday: "long",
     day: "numeric",
     month: "long",
   };
 
-  var day = today.toLocaleDateString("en-US", options);
+  let day = today.toLocaleDateString("en-US", options);
 
   // creating a response by rendering a file called list,
   // which has to exist inside a views folder and has to have the extension .ejs.
@@ -32,7 +32,7 @@ app.get("/", function (req, res) {
 
 // post request for value of newItem form
 app.post("/", function (req, res) {
-  var item = req.body.newItem;
+  let item = req.body.newItem;
 
   items.push(item);
 
