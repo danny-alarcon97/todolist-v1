@@ -6,6 +6,7 @@ const app = express();
 const port = 3000;
 
 let items = ["Buy Food", "Cook Food", "Eat Food"];
+let workItems = ["Log In", "Respond To Emails", "Review Project"];
 
 app.set("view engine", "ejs");
 
@@ -28,16 +29,34 @@ app.get("/", function (req, res) {
   // And then into that list file we're passing in a single variable that has the name of kindOfDay,
   // and the value that we're giving it is the value of our variable, day.
 
-  res.render("list", { kindOfDay: day, newListItems: items });
+  res.render("list", { listTitle: day, newListItems: items });
 });
 
 // post request for value of newItem form
 app.post("/", function (req, res) {
   let item = req.body.newItem;
 
-  items.push(item);
+  if (req.body.list === "Work") {
+    workItems.push(item);
+    res.redirect("/work");
+  } else {
+    items.push(item);
+    res.redirect("/");
+  }
+});
 
-  res.redirect("/");
+app.get("/work", function (req, res) {
+  res.render("list", { listTitle: "Work List", newListItems: workItems });
+});
+
+app.post("/work", function (req, res) {
+  let item = req.body.newItem;
+  workItems.push(item);
+  res.redirect("/work");
+});
+
+app.get("/about", function (req, res) {
+  res.render("about");
 });
 
 app.listen(port, function () {
